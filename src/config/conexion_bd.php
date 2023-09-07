@@ -16,13 +16,4 @@ $mysqli = new mysqli("localhost", "root", "", "proyecto_final");
 if ($mysqli->connect_error) {
     die("Error de conexión a la base de datos: " . $mysqli->connect_error);
 }
-function obtenerConexion() {
-    global $conn; // Utiliza la variable $conn definida anteriormente
-
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
-    }
-
-    return $conn;
-}
 ?>

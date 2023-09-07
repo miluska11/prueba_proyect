@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-09-2023 a las 07:46:52
+-- Tiempo de generación: 07-09-2023 a las 07:36:10
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -64,7 +64,8 @@ CREATE TABLE `alumnos` (
 
 INSERT INTO `alumnos` (`id_estudiante`, `nombres`, `apellido`, `correo`, `contrasena`, `direccion`, `matricula`, `fecha_nacimiento`) VALUES
 (1, 'milu', ' urgos', 'milu@milu', '123123', 'av canada', '1002244325', '2002-03-17'),
-(2, 'alumno', 'alumno', 'alumno2@alumno', '123123', 'lima', '2', '0000-00-00');
+(3, 'Emanuel jorge', 'qqqqqqq', 'kelmithmm@gmail.com', '123123', 'Av. Los Cedros', 'matematica', '2023-09-06'),
+(4, 'milurrrr', 'jose', 'pedro@gmail.com', '123123', 'ate', 'comunicacion', '2023-09-21');
 
 -- --------------------------------------------------------
 
@@ -87,18 +88,17 @@ CREATE TABLE `astronomia` (
 CREATE TABLE `cursos` (
   `id` int(11) NOT NULL,
   `nombre_cursos` varchar(100) NOT NULL,
-  `periodo` varchar(100) NOT NULL
+  `periodo` varchar(100) NOT NULL,
+  `maestro_asignado` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cursos`
 --
 
-INSERT INTO `cursos` (`id`, `nombre_cursos`, `periodo`) VALUES
-(1, 'guarani', '1 años'),
-(2, 'astronomia', '5 años'),
-(3, 'matematica', '1 años'),
-(4, 'idioma', '2 años');
+INSERT INTO `cursos` (`id`, `nombre_cursos`, `periodo`, `maestro_asignado`) VALUES
+(1, 'guarani', '1 años', '1'),
+(2, 'astronomia', '5 años', '2');
 
 -- --------------------------------------------------------
 
@@ -134,15 +134,20 @@ CREATE TABLE `maestros` (
   `id_maestro` int(11) NOT NULL,
   `correo` varchar(150) NOT NULL,
   `contrasena` varchar(150) NOT NULL,
-  `nombres` varchar(150) NOT NULL
+  `nombres` varchar(150) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
+  `direccion` varchar(100) NOT NULL,
+  `fecha_naci` varchar(50) NOT NULL,
+  `clase_asignada` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `maestros`
 --
 
-INSERT INTO `maestros` (`id_maestro`, `correo`, `contrasena`, `nombres`) VALUES
-(1, 'maestro@maestro', '$2y$10$o.RK9JCDkb.Bi92Z2KsXju47EQwSdPRN6ITxLyWjmeUVRKptOiJyi', 'Harol el hackel');
+INSERT INTO `maestros` (`id_maestro`, `correo`, `contrasena`, `nombres`, `apellidos`, `direccion`, `fecha_naci`, `clase_asignada`) VALUES
+(1, 'gerencia@gmail.com', '1234', 'Emanuel jorgerrrr', 'perez', 'lima', '2023-09-26', '2'),
+(2, 'gerencia@gmail.com', '123123', 'Emanuel jorgeHHHHH', 'perez', 'Av. Los Cedros', '2023-09-06', '3');
 
 -- --------------------------------------------------------
 
@@ -242,7 +247,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `astronomia`
@@ -254,7 +259,7 @@ ALTER TABLE `astronomia`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `guarani`
@@ -267,6 +272,12 @@ ALTER TABLE `guarani`
 --
 ALTER TABLE `idioma`
   MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `maestros`
+--
+ALTER TABLE `maestros`
+  MODIFY `id_maestro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `matematica`

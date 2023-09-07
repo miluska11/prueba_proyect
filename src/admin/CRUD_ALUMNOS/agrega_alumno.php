@@ -142,9 +142,10 @@
     </style>
     
 </head>
-
 <body>
-<header class="bg-gray-500 text-white text-center py-2">
+   
+    </header>
+    <header class="bg-gray-500 text-white text-center py-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
                 <i class="fas fa-bars" id="btn_open"></i>
@@ -173,6 +174,7 @@
             <li>
                 <h4>MENU ADMINISTRATIVO</h4>
             </li>
+            <li>
                 <span class="material-symbols-outlined">person</span>
                 <a href="#">Personas</a>
             </li>
@@ -193,7 +195,7 @@
     <div class="main-content">
         <div class="p-5 h-[80%] flex flex-col gap-6 mt-[70px]">
             <div class="flex justify-between">
-                <h1 class="text-2xl font-medium text-gray-700">Lista de Alumnos</h1>
+        
 
                 <div class="flex gap-1">
                     <a href="./vAdmin.php">
@@ -201,96 +203,30 @@
                     </a>/ <p>Alumno</p>
                 </div>
             </div>
- <form class="flex flex-col gap-4 p-3 pl-6" action="alumno_edit.php" method="post">
-                       
- <?php
-// form_edita.php
-
-include '../../config/conexion_bd.php';
-
-// Obtener el ID del estudiante de la URL
-if (isset($_GET['id_estudiante'])) {
-    $id_estudiante = $_GET['id_estudiante'];
-
-    // Consulta SQL para obtener los datos del estudiante específico
-    $sql = "SELECT * FROM alumnos WHERE id_estudiante = $id_estudiante";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-    } else {
-        echo "No se encontró un estudiante con el ID proporcionado.";
-        exit;
-    }
-} else {
-    echo "ID de estudiante no proporcionado en la URL.";
-    exit;
-}
-
-// Verificar si se ha enviado el formulario de edición
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recuperar los datos actualizados del formulario
-    $nombres = $_POST['nombres'];
-    $apellido = $_POST['apellido'];
-    $correo = $_POST['correo'];
-    $direccion = $_POST['direccion'];
-    $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $matricula = $_POST['matricula'];
-
-    // Consulta SQL para actualizar los datos del estudiante
-    $sql = "UPDATE alumnos SET nombres='$nombres', apellido='$apellido', correo='$correo', direccion='$direccion', fecha_nacimiento='$fecha_nacimiento', matricula='$matricula' WHERE id_estudiante=$id_estudiante";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Los datos del estudiante se actualizaron correctamente.";
-    } else {
-        echo "Error al actualizar los datos del estudiante: " . $conn->error;
-    }
-
-    // Cerrar la conexión a la base de datos
-    $conn->close();
-}
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Estudiante</title>
-</head>
-<body>
-    <h1>Editar Estudiante</h1>
-    <form action="" method="POST">
+    <h1>Agregar Nuevo Alumno</h1>
+    <form action="guarda_alumno.php" method="POST">
         <label for="nombres">Nombres:</label>
-        <input type="text" name="nombres" value="<?php echo $row['nombres']; ?>"><br>
+        <input type="text" name="nombres" required><br>
 
         <label for="apellido">Apellidos:</label>
-        <input type="text" name="apellido" value="<?php echo $row['apellido']; ?>"><br>
+        <input type="text" name="apellido" required><br>
 
         <label for="correo">Correo Electrónico:</label>
-        <input type="email" name="correo" value="<?php echo $row['correo']; ?>"><br>
+        <input type="email" name="correo" required><br>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" required><br>
 
         <label for="direccion">Dirección:</label>
-        <input type="text" name="direccion" value="<?php echo $row['direccion']; ?>"><br>
-
-        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-        <input type="date" name="fecha_nacimiento" value="<?php echo $row['fecha_nacimiento']; ?>"><br>
+        <input type="text" name="direccion" required><br>
 
         <label for="matricula">Matrícula:</label>
-        <input type="text" name="matricula" value="<?php echo $row['matricula']; ?>"><br>
+        <input type="text" name="matricula" required><br>
 
-        <input type="submit" value="Guardar Cambios">
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" name="fecha_nacimiento" required><br>
+
+        <input type="submit" value="Guardar Alumno">
     </form>
 </body>
-</html>
-
-
-          
-            </div>
-        </div>
-    </div>
-    </div>
-</body>
-<script src="https://cdn.tailwindcss.com"></script>
-
 </html>

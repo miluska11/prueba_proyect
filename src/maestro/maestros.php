@@ -169,7 +169,7 @@
                         <h2>Información de alumnos</h2>
                         <table>
                             <thead>
-                                <tr>
+                                <tr>   
                                     <th>#</th>
                                     <th>Matrícula</th>
                                     <th>Nombre</th>

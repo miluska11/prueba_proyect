@@ -107,26 +107,57 @@
         th {
             background-color: #f2f2f2;
         }
+
+        .btn-custom {
+            background-color: #4CAF50;
+            /* Color verde */
+            color: white;
+            /* Texto en blanco */
+            padding: 10px 20px;
+            /* Espaciado interior */
+            border: none;
+            /* Sin borde */
+            text-align: center;
+            /* Alineación del texto al centro */
+            text-decoration: none;
+            /* Sin subrayado en el texto */
+            display: inline-block;
+            font-size: 16px;
+            /* Tamaño de fuente */
+            margin: 4px 2px;
+            cursor: pointer;
+            /* Cambio de cursor al pasar el mouse */
+            border-radius: 4px;
+            /* Bordes redondeados */
+        }
+
+        .btn-custom:hover {
+            background-color: #45a049;
+            /* Color verde más oscuro al pasar el mouse */
+        }
     </style>
+
+
+
+
+
+
 </head>
 
 <body>
-<header class="bg-gray-500 text-white text-center py-2">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <i class="fas fa-bars" id="btn_open"></i>
-                <a>Home</a> 
-            </div>
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+            <h1 class="li">Home</h1>
+            <div class="flex gap-2 justify-end">
+                <p>Administrador</p>
 
-            <div class="flex gap-2 ml-4">
-                <a >Administrador</a>
-            </div>
-        </div>
+
     </header>
-
     <aside class="sidebar">
-        <div class="logo flex items-center justify-center">
+        <div class="logo">
             <img src="../../../img/logo.jpg" alt="logo">
+            <h2 class="lu">Universidad</h2>
         </div>
         <ul class="links">
             <li class="separator-horizontal"></li>
@@ -146,7 +177,7 @@
             </li>
             <li>
                 <span class="material-symbols-outlined">group</span>
-                <a href="#">Maestros</a>
+                <a href="../CRUD_MAESTROS/maestro_read.php">Maestros</a>
             </li>
             <li>
                 <span class="material-symbols-outlined">ambient_screen</span>
@@ -161,7 +192,7 @@
     <div class="main-content">
         <div class="p-5 h-[80%] flex flex-col gap-6 mt-[70px]">
             <div class="flex justify-between">
-                <h1 class="text-2xl font-medium text-gray-700">Lista de Alumnos</h1>
+                <h1 class="text-2xl font-medium text-gray-700">Lista de clases</h1>
 
                 <div class="flex gap-1">
                     <a href="./vAdmin.php">
@@ -172,55 +203,49 @@
 
 
             <div class="table-container">
-                <h2>Información de alumnos</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Correo</th>
-                            <th>Dirección</th>
-                            <th>Fecha de Nacimiento</th>
-                            <th>Matrícula</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Aquí deberías agregar tus filas de datos PHP -->
-                        <?php
-                        include '../../config/conexion_bd.php'; // Incluye el archivo de conexión a la base de datos
+                <a href="agregar_clase.php" class="btn btn-custom">Agregar Nueva clase</a>
 
-                        // Consulta SQL para obtener los datos de la tabla 'alumnos'
-                        $sql = "SELECT * FROM alumnos";
-                        $result = $conn->query($sql);
+                <?php
+                // Conexión a la base de datos (reemplaza con tus propios datos)
+                $mysqli = new mysqli("localhost", "root", "", "proyecto_final");
 
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $row['id_estudiante'] . "</td>";
-                                echo "<td>" . $row['nombres'] . "</td>";
-                                echo "<td>" . $row['apellido'] . "</td>";          
-                                echo "<td>" . $row['correo'] . "</td>";
-                                echo "<td>" . $row['direccion'] . "</td>";
-                                echo "<td>" . $row['fecha_nacimiento'] . "</td>";
-                                echo "<td>" . $row['matricula'] . "</td>";
-                                echo '<td><a href="editar_alumno.php?id=' . $row['id_estudiante'] . '">Editar</a> | <a href="eliminar_alumno.php?id=' . $row['id_estudiante'] . '">Eliminar</a></td>';
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='7'>No se encontraron registros de alumnos.</td></tr>";
-                        }
+                // Verificar la conexión
+                if ($mysqli->connect_error) {
+                    die("Error en la conexión a la base de datos: " . $mysqli->connect_error);
+                }
 
-                        $conn->close();
-                        ?>
+                // Consulta SQL para obtener los datos de la tabla 'cursos'
+                $sql = "SELECT id, nombre_cursos, periodo, maestro_asignado FROM cursos";
+                $result = $mysqli->query($sql);
 
-                    </tbody>
-                </table>
+                // Comprobar si se obtuvieron resultados
+                if ($result->num_rows > 0) {
+                    echo "<table>";
+                    echo "<tr><th>ID</th><th>Nombre del Curso</th><th>Periodo</th><th>Maestro Asignado</th><th>Acciones</th></tr>";
+                  
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row['id'] . "</td>";
+                        echo "<td>" . $row['nombre_cursos'] . "</td>";
+                        echo "<td>" . $row['periodo'] . "</td>";
+                        echo "<td>" . $row['maestro_asignado'] . "</td>";
+                        echo '<td><a class="btn btn-custom" href="edita_clase.php?id=' . $row['id'] . '">Editar</a> 
+                        | <a href="elimina_clase.php?id=' . $row['id'] . '">Eliminar</a></td>';
+               
+                        echo "</tr>";
+                    }
+
+                    echo "</table>";
+                } else {
+                    echo "No se encontraron registros de cursos.";
+                }
+
+                // Cerrar la conexión
+                $mysqli->close();
+                ?>
+
             </div>
-        </div>
-    </div>
-    </div>
+
 </body>
 <script src="https://cdn.tailwindcss.com"></script>
 

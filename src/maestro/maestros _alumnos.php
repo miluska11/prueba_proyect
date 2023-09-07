@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Estilos CSS personalizados aquí */
+        /* Estilos CSS personalizados aquí... */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -107,22 +107,25 @@
         th {
             background-color: #f2f2f2;
         }
+
+      
     </style>
 </head>
 
 <body>
-<header class="bg-gray-500 text-white text-center py-2">
+    <header class="bg-gray-500 text-white text-center py-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
                 <i class="fas fa-bars" id="btn_open"></i>
-                <a >Home</a> 
+                <a href="index.html" class="ml-2">Home</a> <!-- Enlace a la página de inicio (Home) -->
             </div>
 
             <div class="flex gap-2 ml-4">
-                <a >Administrador</a> >
+                <a href="administracion.html">maestro maestro</a> <!-- Enlace a la página de administración -->
             </div>
         </div>
     </header>
+
     <aside class="sidebar">
         <div class="logo flex items-center justify-center">
             <img src="../../../img/logo.jpg" alt="logo">
@@ -130,53 +133,35 @@
         <ul class="links">
             <li class="separator-horizontal"></li>
             <li>
-                <h4>Admin</h4>
+                <h4>Maestro</h4>
             </li>
             <div class="text-white font-medium flex">
-                <p>Administrador</p>
+                <p>maestro maestro</p>
             </div>
             <li class="separator-horizontal"></li>
             <li>
-                <h4>MENU ADMINISTRATIVO</h4>
+                <h4>MENU MAESTROS</h4>
             </li>
-            <li>
-                <span class="material-symbols-outlined">person</span>
-                <a href="#">Personas</a>
-            </li>
-            <li>
-                <span class="material-symbols-outlined">group</span>
-                <a href="../CRUD_MAESTROS/maestro_read.php">Maestros</a>
-            </li>
-            <li>
+           
                 <span class="material-symbols-outlined">ambient_screen</span>
-                <a href="../CRUD_ALUMNOS/alumnos_read.php">Alumnos</a>
+                <a href="#">Alumnos</a>
             </li>
-            <li>
-                <span class="material-symbols-outlined">pacemaker</span>
-                <a href="../CRUD_CLASES/clases_read.php">Clases</a>
-            </li>
+           
         </ul>
     </aside>
-    <div class="main-content">
-        <div class="p-5 h-[80%] flex flex-col gap-6 mt-[70px]">
-            <div class="flex justify-between">
-                <h1 class="text-2xl font-medium text-gray-700">Lista de Alumnos</h1>
-
-                <div class="flex gap-1">
-                    <a href="./vAdmin.php">
-                        <p class="text-blue-500">Home</p>
-                    </a>/ <p>Alumno</p>
-                </div>
-            </div>
-
-
-            <div class="table-container">
-                <h2>Bienvenido Admin<br> Selecciona la acción que quieras realizar en las pestañas del menú de la izquierda.</h2>
-                
-            </div>
+    <div class="main-content" style="margin-top: 10px;">
+    <div class="p-5 h-[80%] flex flex-col gap-6 bg-white rounded-md shadow-md">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-medium text-gray-700">Dashboard</h1>
+        </div>
+        <div class="p-4">
+            <p class="text-base text-gray-600">
+                Bienvenido <br> Selecciona la acción que quieras realizar en las pestañas del menú de la izquierda.
+            </p>
         </div>
     </div>
-    </div>
+</div>
+
 </body>
 <script src="https://cdn.tailwindcss.com"></script>
 

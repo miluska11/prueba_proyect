@@ -1,3 +1,28 @@
+<?php
+    session_start();
+    require_once "../../config/conexion_bd.php";
+
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
+        // Obtén el ID de la clase desde la URL
+        $id = $_GET["id"];
+
+        // Consulta SQL para obtener los datos de la clase por su ID
+        $sql = "SELECT id, nombre_cursos, periodo, maestro_asignado FROM cursos WHERE id = ?";
+        $stmt = $mysqli->prepare($sql);
+
+        if ($stmt) {
+            // Enlaza el parámetro
+            $stmt->bind_param("i", $id);
+
+            // Ejecuta la consulta
+            if ($stmt->execute()) {
+                // Obtiene los resultados
+                $stmt->bind_result($id, $nombre_cursos, $periodo, $maestro_asignado);
+
+                // Muestra el formulario para editar la clase
+                if ($stmt->fetch()) {
+                    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,24 +167,18 @@
     </style>
     
 </head>
-
 <body>
-<header class="bg-gray-500 text-white text-center py-2">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <i class="fas fa-bars" id="btn_open"></i>
-                <a>Home</a> 
-            </div>
-
-            <div class="flex gap-2 ml-4">
-                <a >Administrador</a>
-            </div>
-        </div>
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+            <h1 class="li">Home</h1>
+            <div class="flex gap-2 justify-end">
+                <p>Administrador</p>
     </header>
-
     <aside class="sidebar">
-        <div class="logo flex items-center justify-center">
+        <div class="logo">
             <img src="../../../img/logo.jpg" alt="logo">
+            <h2 class="lu">Universidad</h2>
         </div>
         <ul class="links">
             <li class="separator-horizontal"></li>
@@ -173,6 +192,7 @@
             <li>
                 <h4>MENU ADMINISTRATIVO</h4>
             </li>
+            <li>
                 <span class="material-symbols-outlined">person</span>
                 <a href="#">Personas</a>
             </li>
@@ -193,7 +213,7 @@
     <div class="main-content">
         <div class="p-5 h-[80%] flex flex-col gap-6 mt-[70px]">
             <div class="flex justify-between">
-                <h1 class="text-2xl font-medium text-gray-700">Lista de Alumnos</h1>
+        
 
                 <div class="flex gap-1">
                     <a href="./vAdmin.php">
@@ -201,96 +221,57 @@
                     </a>/ <p>Alumno</p>
                 </div>
             </div>
- <form class="flex flex-col gap-4 p-3 pl-6" action="alumno_edit.php" method="post">
-                       
- <?php
-// form_edita.php
+            <form action="actualiza_clases.php" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $id; ?>">
+                        
+                        <label for="nombre_cursos">Nombre del Curso:</label>
+                        <input type="text" name="nombre_cursos" id="nombre_cursos" value="<?php echo $nombre_cursos; ?>" required>
+                        <br>
 
-include '../../config/conexion_bd.php';
+                        <label for="periodo">Periodo:</label>
+                        <input type="text" name="periodo" id="periodo" value="<?php echo $periodo; ?>" required>
+                        <br>
 
-// Obtener el ID del estudiante de la URL
-if (isset($_GET['id_estudiante'])) {
-    $id_estudiante = $_GET['id_estudiante'];
+                        <label for="maestro_asignado">Maestro Asignado:</label>
+                        <select name="maestro_asignado" id="maestro_asignado" required>
+                            <!-- PHP para cargar la lista de maestros desde la base de datos -->
+                            <?php
+                            include "../../config/conexion_bd.php";
+                            $sql_maestros = "SELECT id_maestro, nombres, apellidos FROM maestros";
+                            $result_maestros = $mysqli->query($sql_maestros);
 
-    // Consulta SQL para obtener los datos del estudiante específico
-    $sql = "SELECT * FROM alumnos WHERE id_estudiante = $id_estudiante";
-    $result = $conn->query($sql);
+                            if ($result_maestros->num_rows > 0) {
+                                while ($row_maestros = $result_maestros->fetch_assoc()) {
+                                    $selected = ($row_maestros['id_maestro'] == $maestro_asignado) ? "selected" : "";
+                                    echo '<option value="' . $row_maestros['id_maestro'] . '" ' . $selected . '>' . $row_maestros['nombres'] . ' ' . $row_maestros['apellidos'] . '</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                        <br>
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+                        <input type="submit" value="Guardar Cambios">
+                    </form>
+                    <?php
+                } else {
+                    echo "No se encontraron registros de clases con el ID proporcionado.";
+                }
+
+                $stmt->close();
+            } else {
+                echo "Error en la consulta: " . $stmt->error;
+            }
+        } else {
+            echo "Error en la preparación de la consulta: " . $mysqli->error;
+        }
     } else {
-        echo "No se encontró un estudiante con el ID proporcionado.";
-        exit;
-    }
-} else {
-    echo "ID de estudiante no proporcionado en la URL.";
-    exit;
-}
-
-// Verificar si se ha enviado el formulario de edición
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recuperar los datos actualizados del formulario
-    $nombres = $_POST['nombres'];
-    $apellido = $_POST['apellido'];
-    $correo = $_POST['correo'];
-    $direccion = $_POST['direccion'];
-    $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $matricula = $_POST['matricula'];
-
-    // Consulta SQL para actualizar los datos del estudiante
-    $sql = "UPDATE alumnos SET nombres='$nombres', apellido='$apellido', correo='$correo', direccion='$direccion', fecha_nacimiento='$fecha_nacimiento', matricula='$matricula' WHERE id_estudiante=$id_estudiante";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Los datos del estudiante se actualizaron correctamente.";
-    } else {
-        echo "Error al actualizar los datos del estudiante: " . $conn->error;
+        echo "No se proporcionó un ID de clase válido.";
     }
 
-    // Cerrar la conexión a la base de datos
-    $conn->close();
-}
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Estudiante</title>
-</head>
-<body>
-    <h1>Editar Estudiante</h1>
-    <form action="" method="POST">
-        <label for="nombres">Nombres:</label>
-        <input type="text" name="nombres" value="<?php echo $row['nombres']; ?>"><br>
-
-        <label for="apellido">Apellidos:</label>
-        <input type="text" name="apellido" value="<?php echo $row['apellido']; ?>"><br>
-
-        <label for="correo">Correo Electrónico:</label>
-        <input type="email" name="correo" value="<?php echo $row['correo']; ?>"><br>
-
-        <label for="direccion">Dirección:</label>
-        <input type="text" name="direccion" value="<?php echo $row['direccion']; ?>"><br>
-
-        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-        <input type="date" name="fecha_nacimiento" value="<?php echo $row['fecha_nacimiento']; ?>"><br>
-
-        <label for="matricula">Matrícula:</label>
-        <input type="text" name="matricula" value="<?php echo $row['matricula']; ?>"><br>
-
-        <input type="submit" value="Guardar Cambios">
-    </form>
+    // Cerrar la conexión
+    $mysqli->close();
+    ?>
 </body>
-</html>
-
-
-          
-            </div>
-        </div>
-    </div>
-    </div>
-</body>
-<script src="https://cdn.tailwindcss.com"></script>
-
+    
+        </body>
 </html>

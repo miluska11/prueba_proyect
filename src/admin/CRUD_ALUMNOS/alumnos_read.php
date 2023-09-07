@@ -106,23 +106,48 @@
         th {
             background-color: #f2f2f2;
         }
-    </style>
+        .btn-custom {
+        background-color: #4CAF50; /* Color verde */
+        color: white; /* Texto en blanco */
+        padding: 10px 20px; /* Espaciado interior */
+        border: none; /* Sin borde */
+        text-align: center; /* Alineación del texto al centro */
+        text-decoration: none; /* Sin subrayado en el texto */
+        display: inline-block;
+        font-size: 16px; /* Tamaño de fuente */
+        margin: 4px 2px;
+        cursor: pointer; /* Cambio de cursor al pasar el mouse */
+        border-radius: 4px; /* Bordes redondeados */
+    }
+
+    .btn-custom:hover {
+        background-color: #45a049; /* Color verde más oscuro al pasar el mouse */
+    }
+</style>
+
+
+
+
+
+
 </head>
 
 <body>
-    <header>
-        <div class="icon__menu">
-            <i class="fas fa-bars" id="btn_open"></i>
-            <h1 class="li">Home</h1>
-            <div class="flex gap-2 justify-end">
-                <p>Administrador</p>
+<header class="bg-gray-500 text-white text-center py-2">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-bars" id="btn_open"></i>
+                <a  class="ml-2">Home</a> 
+            </div>
 
-
+            <div class="flex gap-2 ml-4">
+                <a >ADMINISTRADOR</a> 
+            </div>
+        </div>
     </header>
     <aside class="sidebar">
-        <div class="logo">
+        <div class="logo flex items-center justify-center">
             <img src="../../../img/logo.jpg" alt="logo">
-            <h2 class="lu">Universidad</h2>
         </div>
         <ul class="links">
             <li class="separator-horizontal"></li>
@@ -168,6 +193,8 @@
 
 
             <div class="table-container">
+            <a href="agrega_alumno.php" class="btn btn-custom">Agregar Nuevo Alumno</a>
+
                 <h2>Información de alumnos</h2>
                 <table>
                     <thead>
@@ -183,7 +210,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Aquí deberías agregar tus filas de datos PHP -->
+                    
                         <?php
                         include '../../config/conexion_bd.php'; // Incluye el archivo de conexión a la base de datos
 
@@ -201,7 +228,8 @@
                                 echo "<td>" . $row['direccion'] . "</td>";
                                 echo "<td>" . $row['fecha_nacimiento'] . "</td>";
                                 echo "<td>" . $row['matricula'] . "</td>";
-                                echo '<td><a href="form_edita.php?id_estudiante=' . $row['id_estudiante'] . '">Editar</a> | <a href="eliminar_alumno.php?id_estudiante=' . $row['id_estudiante'] . '">Eliminar</a></td>';
+                                echo '<td><a  class="btn btn-custom" href="form_edita.php?id_estudiante=' . $row['id_estudiante'] . '">Editar</a> 
+                                | <a href="eliminar_alumno.php?id_estudiante=' . $row['id_estudiante'] . '">Eliminar</a></td>';
                                 echo "</tr>";
                             }
                         } else {

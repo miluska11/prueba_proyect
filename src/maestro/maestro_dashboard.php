@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Estilos CSS personalizados aquí */
+        /* Estilos CSS personalizados aquí... */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -107,19 +107,21 @@
         th {
             background-color: #f2f2f2;
         }
+
+      
     </style>
 </head>
 
 <body>
-<header class="bg-gray-500 text-white text-center py-2">
+    <header class="bg-gray-500 text-white text-center py-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center">
                 <i class="fas fa-bars" id="btn_open"></i>
-                <a>Home</a> 
+                <a href="index.html" class="ml-2">Home</a> <!-- Enlace a la página de inicio (Home) -->
             </div>
 
             <div class="flex gap-2 ml-4">
-                <a >Administrador</a>
+                <a href="administracion.html">maestro maestro</a> <!-- Enlace a la página de administración -->
             </div>
         </div>
     </header>
@@ -131,95 +133,61 @@
         <ul class="links">
             <li class="separator-horizontal"></li>
             <li>
-                <h4>Admin</h4>
+                <h4>Maestro</h4>
             </li>
             <div class="text-white font-medium flex">
-                <p>Administrador</p>
+                <p>maestro maestro</p>
             </div>
             <li class="separator-horizontal"></li>
             <li>
-                <h4>MENU ADMINISTRATIVO</h4>
+                <h4>MENU MAESTROS</h4>
             </li>
-            <li>
-                <span class="material-symbols-outlined">person</span>
-                <a href="#">Personas</a>
-            </li>
-            <li>
-                <span class="material-symbols-outlined">group</span>
-                <a href="#">Maestros</a>
-            </li>
-            <li>
+           
                 <span class="material-symbols-outlined">ambient_screen</span>
                 <a href="#">Alumnos</a>
             </li>
-            <li>
-                <span class="material-symbols-outlined">pacemaker</span>
-                <a href="#">Clases</a>
-            </li>
+           
         </ul>
     </aside>
-    <div class="main-content">
-        <div class="p-5 h-[80%] flex flex-col gap-6 mt-[70px]">
-            <div class="flex justify-between">
-                <h1 class="text-2xl font-medium text-gray-700">Lista de Alumnos</h1>
-
+    <div class="main-content" style="margin-top: 10px; ">
+        <div class="p-5 h-[80%] flex flex-col gap-6 ">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-medium text-gray-700">Alumnos de la Clase de Guarani</h1>
                 <div class="flex gap-1">
                     <a href="./vAdmin.php">
                         <p class="text-blue-500">Home</p>
-                    </a>/ <p>Alumno</p>
+                    </a>
+                    <p>/</p>
+                    <p>Alumno</p>
                 </div>
             </div>
-
-
+            <div class="flex justify-end flex gap-4 items-center">
+               
+                <div class="relative">
+                    <input type="text" class="border rounded-md px-3 py-2" placeholder="Buscar">
+                    <button class="absolute right-2 top-2 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
             <div class="table-container">
-                <h2>Información de alumnos</h2>
+                <h2>Alumnos de clase Guarani</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Correo</th>
-                            <th>Dirección</th>
-                            <th>Fecha de Nacimiento</th>
-                            <th>Matrícula</th>
-                            <th>Acciones</th>
+                             <th>Nombre de alumno</th>
+                             <th>Calificacion</th>
+                             <th>Mensajes</th>
+                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Aquí deberías agregar tus filas de datos PHP -->
-                        <?php
-                        include '../../config/conexion_bd.php'; // Incluye el archivo de conexión a la base de datos
-
-                        // Consulta SQL para obtener los datos de la tabla 'alumnos'
-                        $sql = "SELECT * FROM alumnos";
-                        $result = $conn->query($sql);
-
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $row['id_estudiante'] . "</td>";
-                                echo "<td>" . $row['nombres'] . "</td>";
-                                echo "<td>" . $row['apellido'] . "</td>";          
-                                echo "<td>" . $row['correo'] . "</td>";
-                                echo "<td>" . $row['direccion'] . "</td>";
-                                echo "<td>" . $row['fecha_nacimiento'] . "</td>";
-                                echo "<td>" . $row['matricula'] . "</td>";
-                                echo '<td><a href="editar_alumno.php?id=' . $row['id_estudiante'] . '">Editar</a> | <a href="eliminar_alumno.php?id=' . $row['id_estudiante'] . '">Eliminar</a></td>';
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='7'>No se encontraron registros de alumnos.</td></tr>";
-                        }
-
-                        $conn->close();
-                        ?>
-
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
     </div>
 </body>
 <script src="https://cdn.tailwindcss.com"></script>
